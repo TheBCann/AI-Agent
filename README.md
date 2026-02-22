@@ -1,34 +1,52 @@
-[![progress-banner](https://backend.codecrafters.io/progress/claude-code/f77ed41e-4a77-478a-8dbe-bf645491209e)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+# AI-Agent
 
-This is a starting point for TypeScript solutions to the
-["Build Your own Claude Code" Challenge](https://codecrafters.io/challenges/claude-code).
+A terminal-based AI agent built with TypeScript and Bun. It uses an LLM via OpenRouter to understand prompts and execute tasks through tool calls in an agent loop.
 
-Claude Code is an AI coding assistant that uses Large Language Models (LLMs) to
-understand code and perform actions through tool calls. In this challenge,
-you'll build your own Claude Code from scratch by implementing an LLM-powered
-coding assistant.
+## Features
 
-Along the way you'll learn about HTTP RESTful APIs, OpenAI-compatible tool
-calling, agent loop, and how to integrate multiple tools into an AI assistant.
+- **Read** — Read files from the filesystem
+- **Write** — Write files to the filesystem
+- **Bash** — Execute shell commands
+- **Search** — Search the web via DuckDuckGo (no API key required)
+- **Fetch** — Fetch and parse URLs, with RSS support and Playwright browser fallback for JS-heavy sites
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+## Requirements
 
-# Passing the first stage
+- [Bun](https://bun.sh) 1.3+
+- An [OpenRouter](https://openrouter.ai) API key
 
-The entry point for your `claude-code` implementation is in `app/main.ts`. Study
-and uncomment the relevant code, and submit to pass the first stage:
+## Setup
 
-```sh
-codecrafters submit
+```bash
+# Install dependencies
+bun install
+
+# Install Playwright browser
+bunx playwright install chromium
+
+# Create your .env file
+echo "OPENROUTER_API_KEY=your_key_here" > .env
 ```
 
-# Stage 2 & beyond
+## Usage
 
-Note: This section is for stages 2 and beyond.
+```bash
+bun app/main.ts -p "Your prompt here"
+```
 
-1. Ensure you have `bun (1.3)` installed locally.
-2. Run `./your_program.sh` to run your program, which is implemented in
-   `app/main.ts`.
-3. Run `codecrafters submit` to submit your solution to CodeCrafters. Test
-   output will be streamed to your terminal.
+### Examples
+
+```bash
+bun app/main.ts -p "What are the top stories on Hacker News today?"
+bun app/main.ts -p "Read main.ts and explain what it does"
+bun app/main.ts -p "Search the web for the latest Bun release"
+```
+
+## Project Structure
+
+```
+app/
+  main.ts      # Agent loop and tool dispatch
+  search.ts    # Search, fetch, and browser utilities
+  headers.ts   # Shared HTTP headers
+```
