@@ -1,18 +1,7 @@
-export interface Message {
-  role: "system" | "user" | "assistant" | "tool";
-  content: string | null;
-  tool_calls?: ToolCall[];
-  tool_call_id?: string;
-}
+import type OpenAI from "openai";
 
-export interface ToolCall {
-  id: string;
-  type: "function";
-  function: {
-    name: string;
-    arguments: string;
-  };
-}
+// Re-export OpenAI's types for convenience
+export type Message = OpenAI.Chat.Completions.ChatCompletionMessageParam;
 
 export interface ToolDefinition {
   name: string;

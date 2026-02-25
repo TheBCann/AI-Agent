@@ -1,3 +1,4 @@
+import OpenAI from "openai";
 import { fetchUrl, fetchWithBrowser, search } from "./search";
 import type { ToolDefinition } from "./types";
 
@@ -103,7 +104,8 @@ const toolRegistry: ToolDefinition[] = [
 
   {
     name: "Search",
-    description: "Search the web for current information, news, and recent events",
+    description:
+      "Search the web for current information, news, and recent events",
     parameters: {
       type: "object",
       properties: {
@@ -127,9 +129,10 @@ export const tools = toolRegistry.map(({ name, description, parameters }) => ({
   function: { name, description, parameters },
 }));
 
+// Use OpenAI's type for tool calls
 export async function handleToolCall(
-  toolCall: { id: string; function: { name: string; arguments: string } },
-): Promise<{ role: "tool"; content: string; tool_call_id: string }> {
+  toolCall: OpenAI.Chat.Completions.ChatCompletionMessageToolCall,
+): Promise<OpenAI.Chat.Completions.ChatCompletionToolMessageParam> {
   const tool = toolRegistry.find((t) => t.name === toolCall.function.name);
   if (!tool) {
     console.error("Unknown tool:", toolCall.function.name);
